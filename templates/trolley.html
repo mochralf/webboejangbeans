@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Boejang Beans</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}?v=1.0"
+    />
+    <style>
+      .navbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .trolley {
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .product-list {
+        width: 80%;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+      .product-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #ccc;
+        padding: 1rem 0;
+      }
+      .product-image {
+        width: 100px;
+        height: auto;
+      }
+      .product-details {
+        flex: 1;
+        margin-left: 1rem;
+      }
+      .product-details h3 {
+        margin: 0;
+        font-size: 1.2rem;
+      }
+      .product-details p {
+        margin: 0.2rem 0;
+      }
+      .product-actions {
+        display: flex;
+        align-items: center;
+      }
+      .product-price {
+        margin-left: 1rem;
+        font-weight: 600;
+      }
+      .quantity {
+        display: flex;
+        align-items: center;
+      }
+      .quantity input {
+        width: 50px;
+        margin-left: 0.5rem;
+      }
+      .buttons {
+        margin-top: 2rem;
+        display: flex;
+        justify-content: space-between;
+        width: 80%;
+        max-width: 1000px;
+      }
+      .cta {
+        text-decoration: none;
+        color: white;
+        background-color: #007bff;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        text-align: center;
+      }
+      .cta:hover {
+        background-color: #0056b3;
+      }
+      .icon {
+        margin-left: 1rem;
+        cursor: pointer;
+      }
+      .trolley {
+        margin-top: 10rem;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="/" class="navbar-logo"><span>bag</span> boejangbeans</a>
+    </nav>
+    <section class="trolley" id="trolley">
+      <div class="product-list">
+        {% for product in cart %}
+        <div class="product-item">
+          <img
+            src="{{ url_for('static', filename='images/' + product.image) }}"
+            alt="{{ product.name }}"
+            class="product-image"
+          />
+          <div class="product-details">
+            <h3 class="product-name">{{ product.name }}</h3>
+            <span class="product-price">
+              Rp {{ "{:,.0f}".format(product.price | int) }}
+            </span>
+          </div>
+          <form action="{{ url_for('remove_from_cart') }}" method="POST">
+            <input
+              type="hidden"
+              name="product_id"
+              value="{{ product['id'] }}"
+            />
+            <button type="submit" class="delete-button">Hapus</button>
+          </form>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="total">
+        Total Harga: Rp {{ "{:,.0f}".format(total_price) }}
+      </div>
+      <div class="buttons">
+        <a href="/" class="cta">Lanjut Belanja</a>
+        <a href="/checkout" class="cta">Checkout</a>
+      </div>
+    </section>
+
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script>
+      feather.replace();
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const productPrices = document.querySelectorAll(".product-price");
+        let totalPrice = 0;
+
+        productPrices.forEach(function (priceElement) {
+          const price = parseInt(priceElement.getAttribute("data-price"));
+          totalPrice += price;
+        });
+
+        document.getElementById("total-price").textContent = "Rp " + totalPrice;
+      });
+    </script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </body>
+</html>

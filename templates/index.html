@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Feather Icons-->
+    <!-- choose one -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <!-- My Style -->
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}?v=1.0"
+    />
+
+    <!-- Style -->
+    <style>
+      * {
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        outline: none;
+        border: none;
+        text-decoration: none;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--bg);
+        color: #fff;
+      }
+
+      /* Navbar */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.4rem 7%;
+        background-color: rgba(1, 1, 1, 0.8);
+        border-bottom: 1px solid #513c28;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 9999;
+      }
+
+      .navbar .navbar-logo {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #fff;
+        font-style: italic;
+      }
+
+      .navbar .navbar-logo span {
+        color: var(--primary);
+      }
+
+      .navbar .navbar-nav a {
+        color: #fff;
+        display: inline-block;
+        font-size: 1.2rem;
+        margin: 0 1rem;
+      }
+
+      .navbar .navbar-nav a:hover {
+        color: var(--primary);
+      }
+
+      .navbar .navbar-nav a::after {
+        content: "";
+        display: block;
+        padding-bottom: 0.5rem;
+        border-bottom: 0.1rem solid var(--primary);
+        transform: scaleX(0);
+        transition: 0.2s linear;
+      }
+
+      .navbar .navbar-nav a:hover::after {
+        transform: scaleX(0.5);
+      }
+
+      .navbar .navbar-extra a {
+        color: #fff;
+        margin: 0 0.5rem;
+      }
+
+      .navbar .navbar-extra a:hover {
+        color: var(--primary);
+      }
+
+      #hamburger-menu {
+        display: none;
+      }
+
+      #filter {
+        cursor: pointer;
+        margin-right: 10px;
+      }
+      .dropdown-menu {
+        display: none; /* Sembunyikan dropdown secara default */
+        position: absolute;
+        background-color: #000000;
+        color: #000;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        top: 100%; /* Sesuaikan posisi dropdown */
+        left: 87%; /* Bisa diubah sesuai kebutuhan */
+      }
+      .dropdown-item {
+        display: block;
+        padding: 5px 10px;
+        color: #000;
+        text-decoration: none;
+      }
+      .dropdown-item:hover {
+        background-color: #f0f0f0;
+      }
+      .dropdown-menu.show {
+        display: block; /* Tampilkan dropdown */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar Start -->
+    <nav class="navbar">
+      <a href="/" class="navbar-logo">boejang<span>beans</span>.</a>
+
+      <div class="navbar-nav">
+        <a href="#">Home</a>
+        <a href="#about">About Web</a>
+        <a href="#menu">Menu</a>
+        <a href="#contact">Contact</a>
+        <a href="#author">Author</a>
+      </div>
+
+      <div class="navbar-extra">
+        <a href="/trolley" id="shopping-cart"
+          ><i data-feather="shopping-cart"></i
+        ></a>
+        <a href="javascript:void(0);" id="filter">
+          <i data-feather="filter">Filter</i>
+        </a>
+        <div class="dropdown-menu" id="dropdownMenu">
+          <a class="dropdown-item" href="/filter/?typeCoffee=Strong"
+            >Kopi Gahar</a
+          >
+          <a class="dropdown-item" href="/filter/?typeCoffee=Medium"
+            >Kopi Selingan</a
+          >
+          <a class="dropdown-item" href="/filter/?typeCoffee=Low"
+            >Kopi Hening</a
+          >
+        </div>
+        <a href="/logout" id="user-profile"><i data-feather="log-out"></i></a>
+        <a href="#" id="hamburger-menu"><i data-feather="menu"></i></a>
+      </div>
+    </nav>
+    <!-- Navbar End -->
+
+    <!-- Hero Section Start -->
+    <section
+      class="hero"
+      id="home"
+      style="background-image: url('/static/images/header-bg.jpg')"
+    >
+      <main class="content">
+        <h1>Sudah Siap <span>Ngopi</span> Hari Ini ?</h1>
+        <p>
+          Boejang Beans adalah tempat di mana setiap biji kopi membawa
+          kehangatan, semangat, dan kenikmatan yang tiada duanya.
+        </p>
+        <a href="#menu" class="cta">Beli Sekarang</a>
+      </main>
+    </section>
+    <!-- Hero Section End -->
+
+    <!-- About Section Start -->
+    <section id="about" class="about">
+      <h2><span>Tentang</span> Kami</h2>
+
+      <div class="row">
+        <div class="about-img">
+          <img
+            src="{{ url_for('static', filename='images/tentang-kami.jpg') }}"
+            alt="Tentang Kami"
+          />
+        </div>
+
+        <div class="content">
+          <h3>Kenapa memilih kopi kami?</h3>
+          <p>
+            Nikmati kelezatan kopi yang disiapkan dengan penuh cinta dan
+            perhatian. Setiap biji kopi kami dipilih dengan hati-hati,
+            dipanggang dengan sempurna untuk memberikan rasa yang kaya dan aroma
+            yang menggoda. Kami berkomitmen untuk menyediakan pengalaman kopi
+            terbaik yang memanjakan lidah Anda.
+          </p>
+          <p>"Bersama Boejang Beans, Temukan Rasa yang Menginspirasi"</p>
+        </div>
+      </div>
+    </section>
+    <!-- About Section End -->
+
+    <!-- Menu Section Start -->
+    <section id="menu" class="menu">
+      <h2><span>Menu</span> Kami</h2>
+      <p>
+        Kopi yang kami tawarkan berasal dari perkebunan pilihan, diproses dengan
+        teknologi terkini untuk memastikan kualitas yang terbaik.
+      </p>
+      <p>
+        Kami memiliki berbagai varian rasa yang dapat disesuaikan dengan selera
+        Anda, mulai dari yang lembut hingga yang penuh cita rasa kuat.
+      </p>
+      <p>
+        Kepuasan Anda adalah prioritas kami, itulah sebabnya kami selalu siap
+        memberikan pelayanan terbaik.
+      </p>
+
+      <div class="row">
+        {% for product in products %}
+        <div class="menu-card">
+          <h3 class="card-title">{{product['typeCoffee'].capitalize()}}</h3>
+          <img
+            src="/static/images/{{ product['foto'] }}"
+            alt="{{ product['nama'] }}"
+            class="menu-card-img"
+          />
+          <h3 class="menu-card-title">- {{ product['nama'] }} -</h3>
+          <p class="menu-card-price">{{ product['harga'] }}</p>
+          <div class="add-to-cart">
+            <form action="{{ url_for('add_to_cart') }}" method="POST">
+              <input type="hidden" name="id" value="{{ product.id }}" />
+              <input type="hidden" name="nama" value="{{ product.nama }}" />
+              <input type="hidden" name="harga" value="{{ product.harga }}" />
+              <input type="hidden" name="foto" value="{{ product.foto }}" />
+              <button type="submit">
+                <i data-feather="shopping-cart"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    <!-- Menu Section End -->
+
+    <!-- Contact Section Start -->
+    <section id="contact" class="contact">
+      <h2><span>Kontak</span> Kami</h2>
+      <p>
+        Kami ingin mendengar dari Anda! Apakah Anda memiliki pertanyaan tentang
+        produk kami, layanan, atau hanya ingin berbagi pengalaman menikmati
+        kopi? Tim kami siap membantu Anda!
+      </p>
+
+      <div class="row">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3953.5808512288986!2d110.39878467538512!3d-7.728038092290198!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a593f4565167f%3A0x83827a64d177eaa0!2sTambakan%2C%20Sinduharjo%2C%20Kec.%20Ngaglik%2C%20Kabupaten%20Sleman%2C%20Daerah%20Istimewa%20Yogyakarta%2055581!5e0!3m2!1sid!2sid!4v1716748218858!5m2!1sid!2sid"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          class="map"
+        ></iframe>
+
+        <form action="/contact" method="POST">
+          <div class="input-group">
+            <i data-feather="user"></i>
+            <input type="text" name="nama" placeholder="nama" required />
+          </div>
+          <div class="input-group">
+            <i data-feather="mail"></i>
+            <input type="email" name="email" placeholder="email" required />
+          </div>
+          <div class="input-group">
+            <i data-feather="phone"></i>
+            <input type="text" name="no_hp" placeholder="no hp" required />
+          </div>
+          <div class="input-group">
+            <i data-feather="message-square"></i>
+            <input type="text" name="pesan" placeholder="pesan" required />
+          </div>
+          <button type="submit" class="button">Kirim pesan</button>
+        </form>
+      </div>
+    </section>
+    <!-- Contact Section End -->
+
+    <!-- Author Start -->
+    <section id="author" class="author">
+      <h2><span>Tentang</span> Kami</h2>
+      <p>
+        "Setiap anggota tim kami membawa keahlian unik yang berkontribusi pada
+        kesuksesan proyek ini."
+      </p>
+
+      <div class="author-photos">
+        <div class="author-photo">
+          <a href="Azzam Profile">
+            <img
+              src="/static/images/Abdullah Azzam Azed.jpg"
+              alt="Foto 1"
+              class="author-photo-img"
+            />
+            <p>Abdullah Azzam Azed</p>
+            <p>22 . 83 . 0933</p>
+          </a>
+        </div>
+        <div class="author-photo">
+          <a href="Nagita Profile">
+            <img
+              src="/static/images/Elizabeth Nagita Zachawerus.jpg"
+              alt="Foto 2"
+              class="author-photo-img"
+            />
+            <p>Elizabeth Nagita P.S.H. Zachawerus</p>
+            <p>22 . 83 . 0931</p>
+          </a>
+        </div>
+        <div class="author-photo">
+          <a href="Faqih Profile">
+            <img
+              src="/static/images/Muh. Faqih Muttaqin.jpg"
+              alt="Foto 3"
+              class="author-photo-img"
+            />
+            <p>Muh. Faqih Muttaqin</p>
+            <p>22 . 83 . 0910</p>
+          </a>
+        </div>
+        <div class="author-photo">
+          <a href="Rafli Profile">
+            <img
+              src="/static/images/Rafli Ilham Prasetyo.jpg"
+              alt="Foto 4"
+              class="author-photo-img"
+            />
+            <p>Rafli Ilham Prasetyo</p>
+            <p>22 . 83 . 0907</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <!-- Author End -->
+
+    <!-- Footer Start -->
+    <footer>
+      <div class="links">
+        <a href="#">Home</a>
+        <a href="#about">Tentang Kami</a>
+        <a href="#menu">Menu</a>
+        <a href="#contact">Kontak</a>
+        <a href="#author">Author</a>
+      </div>
+
+      <div class="credit">
+        <p>
+          Created by <a href="">boejangbeans</a>. aka Kelompok 9| &copy; 2024.
+        </p>
+      </div>
+    </footer>
+    <!-- Footer End -->
+
+    <!-- Feather Icons -->
+    <script>
+      feather.replace();
+    </script>
+
+    <!-- My Javascript -->
+    <script src="js/script.js"></script>
+    <script>
+      // Menampilkan atau menyembunyikan dropdown ketika ikon diklik
+      document.getElementById("filter").addEventListener("click", function (e) {
+        e.preventDefault();
+        const dropdown = document.getElementById("dropdownMenu");
+        dropdown.classList.toggle("show");
+      });
+    </script>
+  </body>
+</html>
